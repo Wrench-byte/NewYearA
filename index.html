@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feliz 2025 - Para Alexander</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0e2a 0%, #1a1f4b 50%, #2a2f5b 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Nieve animada */
+        .snow-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .snowflake {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.8;
+            filter: blur(0.5px);
+        }
+
+        /* Estrellas titilantes */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 1; }
+        }
+
+        /* Contenedor principal */
+        .card-container {
+            position: relative;
+            width: 90%;
+            max-width: 800px;
+            z-index: 2;
+            perspective: 1000px;
+            margin: 20px;
+        }
+
+        /* Tarjeta que se abre */
+        .card {
+            width: 100%;
+            height: 500px;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 1s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            cursor: pointer;
+        }
+
+        .card.opened {
+            transform: rotateY(180deg);
+        }
+
+        /* Parte frontal de la tarjeta */
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Diseño frontal */
+        .card-front {
+            background: linear-gradient(45deg, #ff6b6b, #ffd93d, #6bcf7f, #4d96ff);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            text-align: center;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .card-front h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-front h2 {
+            font-size: 2rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .year-display {
+            font-size: 4rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #fff, #ffd93d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 20px 0;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .open-instruction {
+            position: absolute;
+            bottom: 30px;
+            font-size: 1.2rem;
+            opacity: 0.8;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Parte trasera de la tarjeta (contenido) */
+        .card-back {
+            background: linear-gradient(135deg, #1a1f4b 0%, #2a2f5b 100%);
+            transform: rotateY(180deg);
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-content {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 20px;
+        }
+
+        /* Scrollbar personalizado */
+        .card-content::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .card-content::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        .card-content::-webkit-scrollbar-thumb {
+            background: linear-gradient(45deg, #ff6b6b, #ffd93d);
+            border-radius: 10px;
+        }
+
+        .message-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .message-header h3 {
+            font-size: 2.5rem;
+            color: #ffd93d;
+            margin-bottom: 10px;
+        }
+
+        .brother-name {
+            font-size: 2rem;
+            color: #4d96ff;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .message-body {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            margin-bottom: 30px;
+        }
+
+        .message-body p {
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+
+        .highlight {
+            color: #ffd93d;
+            font-weight: bold;
+        }
+
+        .signature {
+            text-align: right;
+            font-style: italic;
+            margin-top: 30px;
+            font-size: 1.3rem;
+            color: #6bcf7f;
+        }
+
+        .close-btn {
+            align-self: center;
+            margin-top: 20px;
+            padding: 12px 30px;
+            background: linear-gradient(45deg, #ff6b6b, #ffd93d);
+            border: none;
+            border-radius: 50px;
+            color: #1a1f4b;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .close-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(255, 107, 107, 0.3);
+        }
+
+        /* Confeti */
+        .confetti-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 3;
+            display: none;
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            opacity: 0;
+        }
+
+        /* Contador regresivo */
+        .countdown {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            text-align: center;
+            min-width: 180px;
+        }
+
+        .countdown-title {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-bottom: 10px;
+        }
+
+        .countdown-time {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #ffd93d;
+            font-family: 'Courier New', monospace;
+        }
+
+        /* Animación de brillo */
+        .glow {
+            animation: glowEffect 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glowEffect {
+            from {
+                box-shadow: 0 0 20px rgba(255, 217, 61, 0.4),
+                            0 0 40px rgba(255, 217, 61, 0.2),
+                            0 0 60px rgba(255, 217, 61, 0.1);
+            }
+            to {
+                box-shadow: 0 0 30px rgba(255, 217, 61, 0.6),
+                            0 0 50px rgba(255, 217, 61, 0.4),
+                            0 0 70px rgba(255, 217, 61, 0.2);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .card {
+                height: 450px;
+            }
+            
+            .card-front h1 {
+                font-size: 2.5rem;
+            }
+            
+            .card-front h2 {
+                font-size: 1.5rem;
+            }
+            
+            .year-display {
+                font-size: 3rem;
+            }
+            
+            .card-back {
+                padding: 25px;
+            }
+            
+            .message-header h3 {
+                font-size: 2rem;
+            }
+            
+            .brother-name {
+                font-size: 1.5rem;
+            }
+            
+            .message-body {
+                font-size: 1rem;
+            }
+            
+            .countdown {
+                position: relative;
+                top: auto;
+                right: auto;
+                margin: 20px auto;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .card {
+                height: 400px;
+            }
+            
+            .card-front {
+                padding: 20px;
+            }
+            
+            .card-front h1 {
+                font-size: 2rem;
+            }
+            
+            .year-display {
+                font-size: 2.5rem;
+            }
+            
+            .open-instruction {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Nieve animada -->
+    <div class="snow-container" id="snow"></div>
+    
+    <!-- Estrellas titilantes -->
+    <div class="stars" id="stars"></div>
+    
+    <!-- Contador regresivo -->
+    <div class="countdown">
+        <div class="countdown-title">¡El 2026 ya está aquí!</div>
+        <div class="countdown-time" id="countdown">2025</div>
+    </div>
+    
+    <!-- Contenedor principal -->
+    <div class="card-container">
+        <div class="card glow" id="card">
+            <!-- Parte frontal -->
+            <div class="card-front">
+                <h1>¡Feliz Año Nuevo!</h1>
+                <h2>Un nuevo comienzo lleno de esperanza</h2>
+                <div class="year-display">2026</div>
+                <p>Haz clic para abrir tu mensaje especial</p>
+                <div class="open-instruction">⬇️ Toca aquí ⬇️</div>
+            </div>
+            
+            <!-- Parte trasera con mensaje -->
+            <div class="card-back">
+                <div class="message-header">
+                    <h3>Para mi hermano mayor</h3>
+                    <div class="brother-name">Alexander</div>
+                </div>
+                
+                <div class="card-content">
+                    <div class="message-body">
+                        <p>Querido <span class="highlight">Alexander</span>,</p>
+                        
+                        <p>En este primer día de <span class="highlight">2026</span>, quiero dedicarte estas palabras llenas de cariño y admiración. Eres mucho más que un hermano para mí: eres un guía, un apoyo y un ejemplo a seguir.</p>
+                        
+                        <p>Recuerdo todas esas veces que estuviste ahí cuando lo necesité, tus consejos llenos de sabiduría y tu capacidad para ver lo mejor en cada situación. Tu fortaleza ha sido un faro en momentos de incertidumbre.</p>
+                        
+                        <p>Para este nuevo año, te deseo que cada uno de tus sueños encuentre su camino hacia la realidad. Que la salud te acompañe siempre, que el éxito sea tu compañero constante y que la felicidad llene cada rincón de tu vida.</p>
+                        
+                        <p>Que el <span class="highlight">2026</span> te traiga aventuras emocionantes, logros importantes y momentos de pura alegría junto a quienes más quieres. Mereces todo lo bueno que la vida tiene para ofrecer.</p>
+                        
+                        <p>Gracias por ser la persona extraordinaria que eres. El mundo es mejor contigo en él.😘</p>
+                    </div>
+                    
+                    <div class="signature">
+                        <p>Con todo mi amor y respeto,</p>
+                        <p>Adriansin)</p>
+                    </div>
+                </div>
+                
+                <button class="close-btn" id="closeBtn">Cerrar tarjeta</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Confeti -->
+    <div class="confetti-container" id="confetti"></div>
+    
+    <script>
+        // Elementos principales
+        const card = document.getElementById('card');
+        const closeBtn = document.getElementById('closeBtn');
+        const snowContainer = document.getElementById('snow');
+        const starsContainer = document.getElementById('stars');
+        const confettiContainer = document.getElementById('confetti');
+        const countdownElement = document.getElementById('countdown');
+
+        // Crear nieve
+        function createSnow() {
+            for (let i = 0; i < 150; i++) {
+                const snowflake = document.createElement('div');
+                snowflake.className = 'snowflake';
+                
+                // Tamaño aleatorio
+                const size = Math.random() * 5 + 2;
+                snowflake.style.width = `${size}px`;
+                snowflake.style.height = `${size}px`;
+                
+                // Posición inicial
+                snowflake.style.left = `${Math.random() * 100}%`;
+                snowflake.style.top = `${Math.random() * 100}%`;
+                
+                // Opacidad aleatoria
+                snowflake.style.opacity = Math.random() * 0.7 + 0.3;
+                
+                // Animación
+                const duration = Math.random() * 10 + 10;
+                const delay = Math.random() * 5;
+                snowflake.style.animation = `fall ${duration}s linear ${delay}s infinite`;
+                
+                // Estilo de animación
+                const style = document.createElement('style');
+                style.textContent = `
+                    @keyframes fall {
+                        0% {
+                            transform: translateY(-100vh) rotate(0deg);
+                        }
+                        100% {
+                            transform: translateY(100vh) rotate(360deg);
+                        }
+                    }
+                `;
+                document.head.appendChild(style);
+                
+                snowContainer.appendChild(snowflake);
+            }
+        }
+
+        // Crear estrellas
+        function createStars() {
+            for (let i = 0; i < 100; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                
+                // Tamaño aleatorio
+                const size = Math.random() * 3 + 1;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                
+                // Posición aleatoria
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.top = `${Math.random() * 100}%`;
+                
+                // Retraso de animación aleatorio
+                star.style.animationDelay = `${Math.random() * 3}s`;
+                
+                starsContainer.appendChild(star);
+            }
+        }
+
+        // Crear confeti
+        function createConfetti() {
+            const colors = ['#ff6b6b', '#ffd93d', '#6bcf7f', '#4d96ff', '#9b5de5'];
+            
+            for (let i = 0; i < 200; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                
+                // Color aleatorio
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.backgroundColor = color;
+                
+                // Tamaño y forma aleatorios
+                const size = Math.random() * 12 + 5;
+                confetti.style.width = `${size}px`;
+                confetti.style.height = `${size}px`;
+                
+                // Algunas piezas rectangulares
+                if (Math.random() > 0.5) {
+                    confetti.style.borderRadius = '0';
+                    confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+                }
+                
+                // Posición inicial
+                confetti.style.left = `${Math.random() * 100}%`;
+                confetti.style.top = `${Math.random() * 100}%`;
+                
+                // Animación
+                const duration = Math.random() * 3 + 2;
+                const delay = Math.random() * 1;
+                const xMovement = (Math.random() - 0.5) * 200;
+                
+                confetti.style.animation = `confettiFall ${duration}s ease-out ${delay}s forwards`;
+                
+                // Estilo de animación
+                const style = document.createElement('style');
+                style.textContent = `
+                    @keyframes confettiFall {
+                        0% {
+                            transform: translateY(-100px) translateX(0) rotate(0deg);
+                            opacity: 1;
+                        }
+                        100% {
+                            transform: translateY(100vh) translateX(${xMovement}px) rotate(${Math.random() * 720}deg);
+                            opacity: 0;
+                        }
+                    }
+                `;
+                document.head.appendChild(style);
+                
+                confettiContainer.appendChild(confetti);
+            }
+            
+            // Mostrar confeti
+            confettiContainer.style.display = 'block';
+            
+            // Ocultar después de la animación
+            setTimeout(() => {
+                confettiContainer.style.display = 'none';
+                // Limpiar confeti
+                while (confettiContainer.firstChild) {
+                    confettiContainer.removeChild(confettiContainer.firstChild);
+                }
+            }, 3000);
+        }
+
+        // Contador regresivo (simulado para 2025)
+        function updateCountdown() {
+            // Como ya es 2025, mostramos un mensaje especial
+            const now = new Date();
+            const newYear = new Date(now.getFullYear() + 1, 0, 1);
+            const diff = newYear - now;
+            
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            
+            if (diff > 0) {
+                countdownElement.textContent = 
+                    `${days}d ${hours}h ${minutes}m ${seconds}s`;
+            } else {
+                countdownElement.textContent = "¡Feliz 2025!";
+            }
+        }
+
+        // Eventos
+        card.addEventListener('click', () => {
+            card.classList.add('opened');
+            createConfetti();
+        });
+
+        closeBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            card.classList.remove('opened');
+        });
+
+        // Inicializar efectos
+        document.addEventListener('DOMContentLoaded', () => {
+            createSnow();
+            createStars();
+            updateCountdown();
+            
+            // Actualizar contador cada segundo
+            setInterval(updateCountdown, 1000);
+            
+            // Efecto de sonido al abrir (opcional)
+            card.addEventListener('click', () => {
+                // Crear un sonido de campana
+                try {
+                    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                    const oscillator = audioContext.createOscillator();
+                    const gainNode = audioContext.createGain();
+                    
+                    oscillator.connect(gainNode);
+                    gainNode.connect(audioContext.destination);
+                    
+                    oscillator.frequency.setValueAtTime(523.25, audioContext.currentTime); // Do
+                    oscillator.frequency.setValueAtTime(659.25, audioContext.currentTime + 0.1); // Mi
+                    oscillator.frequency.setValueAtTime(783.99, audioContext.currentTime + 0.2); // Sol
+                    
+                    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+                    
+                    oscillator.start(audioContext.currentTime);
+                    oscillator.stop(audioContext.currentTime + 0.5);
+                } catch (e) {
+                    console.log("Audio no disponible");
+                }
+            });
+        });
+
+        // Efecto de resplandor intermitente en la tarjeta
+        setInterval(() => {
+            card.classList.toggle('glow');
+        }, 2000);
+    </script>
+</body>
+</html>
